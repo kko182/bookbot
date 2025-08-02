@@ -1,3 +1,5 @@
+import re  # Regular expressions are used to help split text into sentences
+
 def word_count(text):
     # Split the text by whitespace and count the resulting words
     return len(text.split())
@@ -29,26 +31,26 @@ def sorted_list(text):
     # Sort the list in descending order (highest count first) using the sort_on function
     chars_list.sort(reverse=True, key=sort_on)
     return chars_list  # Return the sorted list of character dictionaries
-import re
 
 def average_word_length(text):
-    words = text.split()
+    words = text.split()  # Split text into a list of words
     if not words:
-        return 0
+        return 0  # Avoid division by zero if there are no words
+    # Remove punctuation and calculate total number of characters in all words
     total_chars = sum(len(word.strip(".,!?;:")) for word in words)
-    return total_chars / len(words)
+    return total_chars / len(words)  # Return average word length
 
 def sentence_count(text):
     # Use regex to split on sentence-ending punctuation followed by space or end of line
     sentences = re.split(r'[.!?]+(?:\s|$)', text.strip())
     # Remove empty strings
     sentences = [s for s in sentences if s.strip()]
-    return len(sentences)
+    return len(sentences) # Return number of non-empty sentences
 
 def average_sentence_length(text):
-    words = text.split()
-    num_sentences = sentence_count(text)
+    words = text.split()  # Get all words
+    num_sentences = sentence_count(text)  # Use sentence_count function
     if num_sentences == 0:
-        return 0
-    return len(words) / num_sentences
+        return 0  # Avoid division by zero if no sentences
+    return len(words) / num_sentences  # Return average number of words per sentence
 
