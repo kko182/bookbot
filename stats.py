@@ -1,4 +1,5 @@
 import re  # Regular expressions are used to help split text into sentences
+import string  # For removing punctuation
 
 def word_count(text):
     # Split the text by whitespace and count the resulting words
@@ -54,3 +55,26 @@ def average_sentence_length(text):
         return 0  # Avoid division by zero if no sentences
     return len(words) / num_sentences  # Return average number of words per sentence
 
+def top_words(text, limit=20):
+    """
+    Returns a list of the most common words in the text.
+    Each list item is a dict with the word and its count.
+    """
+    word_counts = {}  # Dictionary to store word frequencies
+    words = text.lower().split()  # Split text and convert to lowercase
+
+    for word in words:
+        # Strip punctuation from each word (e.g., "end." -> "end")
+        clean_word = word.strip(string.punctuation)
+
+        if clean_word:
+            if clean_word in word_counts:
+                word_counts[clean_word] += 1
+            else:
+                word_counts[clean_word] = 1
+
+    # Convert to list of dicts for compatibility with your existing sorted_list style
+    word_list = [{"word": w, "count": c} for w, c in word_counts.items()]
+    word_list.sort(reverse=True, key=lambda item: item["count"])  # Sort by count, descending
+
+    return word_list[:limit]  # Return only the top `limit` entries

@@ -1,4 +1,5 @@
 import sys  # sys is used to access command-line arguments
+import argparse
 
 # Import functions from the stats module
 from stats import (
@@ -7,7 +8,8 @@ from stats import (
     sorted_list,
     average_word_length,
     sentence_count,
-    average_sentence_length
+    average_sentence_length,
+    top_words
 )
 
 def get_book_text(path_to_file):
@@ -21,11 +23,22 @@ def main():
     Main function to run the BookBot text analyzer.
     It reads a book file, performs multiple analyses, and prints a report.
     """
+    # Set up argument parser
+    parser = argparse.ArgumentParser(description="Analyze a book's text file.")
+    parser.add_argument("path", help="Path to the book text file")
+    parser.add_argument("--top", type=int, default=20, help="Number of top words to display (default: 20)")
 
-    # Check if the correct number of arguments was provided (1 argument + script name)
-    if len(sys.argv) != 2:
-        print("Usage: python3 main.py <path_to_book>")  # Show usage if incorrect
-        sys.exit(1)  # Exit with an error code
+    args = parser.parse_args()  # Parse command-line arguments
+
+    # Set up argument parser for command-line flags
+    parser = argparse.ArgumentParser(description="Analyze a text file like a book.")
+    parser.add_argument("path", help="Path to the book text file")
+    parser.add_argument("--top", type=int, default=20, help="Number of top words to display (default: 20)")
+    
+    args = parser.parse_args()
+
+    # Get the text content from the book file
+    text = get_book_text(args.path)
 
     # Get the text content from the book file
     text = get_book_text(sys.argv[1])
@@ -52,6 +65,14 @@ def main():
     print(f"Sentence count: {sentence_count(text)}") # Number of sentences
     print(f"Average sentence length: {average_sentence_length(text):.2f} words") # Avg words per sentence
     print(f"Average word length: {average_word_length(text):.2f} characters") # Avg chars per word
+
+    # Most common words (based on --top flag)
+    print(f"--------- Top {args.top} Words ----------")
+    common_words = top_words(text, limit=args.top)
+    for word_info in common_words:
+        word = word_info["word"]
+        count = word_info["count"]
+        print(f"{word}: {count}")
 
     # --- Character Frequency Section ---
     print("--------- Character Count -------")
