@@ -29,4 +29,26 @@ def sorted_list(text):
     # Sort the list in descending order (highest count first) using the sort_on function
     chars_list.sort(reverse=True, key=sort_on)
     return chars_list  # Return the sorted list of character dictionaries
+import re
+
+def average_word_length(text):
+    words = text.split()
+    if not words:
+        return 0
+    total_chars = sum(len(word.strip(".,!?;:")) for word in words)
+    return total_chars / len(words)
+
+def sentence_count(text):
+    # Use regex to split on sentence-ending punctuation followed by space or end of line
+    sentences = re.split(r'[.!?]+(?:\s|$)', text.strip())
+    # Remove empty strings
+    sentences = [s for s in sentences if s.strip()]
+    return len(sentences)
+
+def average_sentence_length(text):
+    words = text.split()
+    num_sentences = sentence_count(text)
+    if num_sentences == 0:
+        return 0
+    return len(words) / num_sentences
 

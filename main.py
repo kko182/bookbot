@@ -1,9 +1,7 @@
 import sys
 
 # Import functions from the stats module
-from stats import word_count
-from stats import char_count
-from stats import sorted_list
+from stats import word_count, char_count, sorted_list, average_word_length, sentence_count, average_sentence_length
 
 def get_book_text(path_to_file):
     # Open the file at the given path and read its contents
@@ -37,6 +35,12 @@ def main():
     print("----------- Word Count ----------")
     print(f"Found {count} total words")
     
+    # Print sentence and word length stats
+    print("------ Sentence & Word Stats ----")
+    print(f"Sentence count: {sentence_count(text)}")
+    print(f"Average sentence length: {average_sentence_length(text):.2f} words")
+    print(f"Average word length: {average_word_length(text):.2f} characters")
+
     # Print character count section
     print("--------- Character Count -------")
     # Loop through each character in the sorted list
