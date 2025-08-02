@@ -1,5 +1,5 @@
 import sys  # sys is used to access command-line arguments
-import argparse
+import argparse  # Import the argparse module for parsing command-line arguments
 
 # Import functions from the stats module
 from stats import (
@@ -23,19 +23,14 @@ def main():
     Main function to run the BookBot text analyzer.
     It reads a book file, performs multiple analyses, and prints a report.
     """
-    # Set up argument parser
+    # Set up argument parser to handle input arguments and options
     parser = argparse.ArgumentParser(description="Analyze a book's text file.")
+    # Add a required positional argument 'path' to specify the path to the book file
     parser.add_argument("path", help="Path to the book text file")
+    # Add an optional argument '--top' to specify how many top words to display (default is 20)
     parser.add_argument("--top", type=int, default=20, help="Number of top words to display (default: 20)")
 
     args = parser.parse_args()  # Parse command-line arguments
-
-    # Set up argument parser for command-line flags
-    parser = argparse.ArgumentParser(description="Analyze a text file like a book.")
-    parser.add_argument("path", help="Path to the book text file")
-    parser.add_argument("--top", type=int, default=20, help="Number of top words to display (default: 20)")
-    
-    args = parser.parse_args()
 
     # Get the text content from the book file
     text = get_book_text(args.path)
@@ -68,11 +63,12 @@ def main():
 
     # Most common words (based on --top flag)
     print(f"--------- Top {args.top} Words ----------")
-    common_words = top_words(text, limit=args.top)
+    common_words = top_words(text, limit=args.top)  # Get the most common words, limited by the user-specified count
+    # Loop through each word and its count in the common_words list and print them
     for word_info in common_words:
-        word = word_info["word"]
-        count = word_info["count"]
-        print(f"{word}: {count}")
+        word = word_info["word"]  # Extract the word
+        count = word_info["count"]  # Extract the count of that word
+        print(f"{word}: {count}")  # Print the word and how many times it appears
 
     # --- Character Frequency Section ---
     print("--------- Character Count -------")
